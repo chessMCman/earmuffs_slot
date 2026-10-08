@@ -1,0 +1,38 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+modId="earmuffs_slot"
+version="1.0.0"
+displayName="IE Earmuffs Curios Slot"
+authors="earmuffs-slot"
+description="Adds a dedicated Curios slot for Immersive Engineering's Ear Defenders, so they can be worn together with a helmet."
+
+[[dependencies.earmuffs_slot]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.earmuffs_slot]]
+    modId="neoforge"
+    mandatory=true
+    versionRange="[21.1.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.earmuffs_slot]]
+    modId="curios"
+    mandatory=true
+    versionRange="[9.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.earmuffs_slot]]
+    modId="immersiveengineering"
+    mandatory=true
+    versionRange="[12.0.0,)"
+    ordering="AFTER"
+    side="BOTH"

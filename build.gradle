@@ -1,0 +1,51 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.78'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        configureEach {
+            logLevel = org.slf4j.event.Level.INFO
+        }
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+repositories {
+    maven {
+        name = 'Curios'
+        url = uri('https://maven.theillusivec4.top/')
+    }
+}
+
+dependencies {
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    // Immersive Engineering is a hard runtime dependency (declared in neoforge.mods.toml);
+    // we only compile against it to register into IE's ear-defender sound dampening.
+    compileOnly files('libs/immersiveengineering-1.21.1-12.4.2-194.jar')
+}
