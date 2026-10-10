@@ -5,6 +5,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -24,7 +25,16 @@ public class EarmuffsSlotMod {
             ResourceLocation.fromNamespaceAndPath("immersiveengineering", "earmuffs");
 
     public EarmuffsSlotMod(IEventBus modEventBus) {
-        // The ear defenders are registered by IE (loaded before us), so they are available here.
+        // Defer the lookup: items are not in BuiltInRegistries.ITEM yet while mod constructors run,
+        // they only become available once the registry events + common setup fire.
+        modEventBus.addListener(this::onCommonSetup);
+
+        if (FMLEnvironment.dist.isClient()) {
+            com.iez.earmuffsslot.client.ClientSetup.register(modEventBus);
+        }
+    }
+
+    private void onCommonSetup(FMLCommonSetupEvent event) {
         BuiltInRegistries.ITEM.getOptional(IE_EARMUFFS).ifPresentOrElse(
                 item -> {
                     CuriosApi.registerCurio(item, new EarmuffsCurio());
@@ -32,9 +42,5 @@ public class EarmuffsSlotMod {
                 },
                 () -> LOGGER.warn("Immersive Engineering Ear Defenders not found; the earmuffs slot will stay empty.")
         );
-
-        if (FMLEnvironment.dist.isClient()) {
-            com.iez.earmuffsslot.client.ClientSetup.register(modEventBus);
-        }
     }
 }
