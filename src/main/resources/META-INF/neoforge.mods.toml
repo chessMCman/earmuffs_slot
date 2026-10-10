@@ -4,7 +4,7 @@ license="MIT"
 
 [[mods]]
 modId="earmuffs_slot"
-version="1.0.0"
+version="${mod_version}"
 displayName="IE Earmuffs Curios Slot"
 authors="earmuffs-slot"
 description="Adds a dedicated Curios slot for Immersive Engineering's Ear Defenders, so they can be worn together with a helmet."

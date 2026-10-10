@@ -49,3 +49,15 @@ dependencies {
     // we only compile against it to register into IE's ear-defender sound dampening.
     compileOnly files('libs/immersiveengineering-1.21.1-12.4.2-194.jar')
 }
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            mod_id     : mod_id,
+            mod_version: mod_version,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties + [project: project]
+    }
+}
